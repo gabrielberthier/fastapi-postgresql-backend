@@ -1,8 +1,9 @@
 from typing import Dict
 
-#from fastapi.testclient import TestClient
+# from fastapi.testclient import TestClient
 from httpx import AsyncClient
-#from sqlalchemy.orm import Session
+
+# from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud
@@ -49,4 +50,6 @@ async def authentication_token_from_email(
         user_in_update = UserUpdate(password=password)
         user = await crud.user.update(db, db_obj=user, obj_in=user_in_update)
 
-    return await user_authentication_headers(client=client, email=email, password=password)
+    return await user_authentication_headers(
+        client=client, email=email, password=password
+    )

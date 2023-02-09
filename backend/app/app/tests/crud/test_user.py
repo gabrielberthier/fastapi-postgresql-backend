@@ -1,5 +1,6 @@
 import pytest
 from fastapi.encoders import jsonable_encoder
+
 # from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,7 +26,9 @@ async def test_authenticate_user(async_get_db: AsyncSession) -> None:
     password = random_lower_string()
     user_in = UserCreate(email=email, password=password)
     user = await crud.user.create(async_get_db, obj_in=user_in)
-    authenticated_user = await crud.user.authenticate(async_get_db, email=email, password=password)
+    authenticated_user = await crud.user.authenticate(
+        async_get_db, email=email, password=password
+    )
     assert authenticated_user
     assert user.email == authenticated_user.email
 
@@ -64,7 +67,9 @@ async def test_check_if_user_is_superuser(async_get_db: AsyncSession) -> None:
     assert is_superuser is True
 
 
-async def test_check_if_user_is_superuser_normal_user(async_get_db: AsyncSession) -> None:
+async def test_check_if_user_is_superuser_normal_user(
+    async_get_db: AsyncSession,
+) -> None:
     username = random_email()
     password = random_lower_string()
     user_in = UserCreate(email=username, password=password)

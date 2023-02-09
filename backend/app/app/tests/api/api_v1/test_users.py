@@ -1,9 +1,10 @@
 from typing import Dict
 import pytest
 
-#from fastapi.testclient import TestClient
+# from fastapi.testclient import TestClient
 from httpx import AsyncClient
-#from sqlalchemy.orm import AsyncSession
+
+# from sqlalchemy.orm import AsyncSession
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud
@@ -17,7 +18,9 @@ pytestmark = pytest.mark.asyncio
 async def test_get_users_superuser_me(
     client: AsyncClient, superuser_token_headers: Dict[str, str]
 ) -> None:
-    r = await client.get(f"{settings.API_V1_STR}/users/me", headers=superuser_token_headers)
+    r = await client.get(
+        f"{settings.API_V1_STR}/users/me", headers=superuser_token_headers
+    )
     current_user = r.json()
     assert current_user
     assert current_user["is_active"] is True
@@ -28,7 +31,9 @@ async def test_get_users_superuser_me(
 async def test_get_users_normal_user_me(
     client: AsyncClient, normal_user_token_headers: Dict[str, str]
 ) -> None:
-    r = await client.get(f"{settings.API_V1_STR}/users/me", headers=normal_user_token_headers)
+    r = await client.get(
+        f"{settings.API_V1_STR}/users/me", headers=normal_user_token_headers
+    )
     current_user = r.json()
     assert current_user
     assert current_user["is_active"] is True
@@ -118,7 +123,9 @@ async def test_retrieve_users(
     user_in2 = UserCreate(email=username2, password=password2)
     await crud.user.create(async_get_db, obj_in=user_in2)
 
-    r = await client.get(f"{settings.API_V1_STR}/users/", headers=superuser_token_headers)
+    r = await client.get(
+        f"{settings.API_V1_STR}/users/", headers=superuser_token_headers
+    )
     all_users = r.json()
 
     assert len(all_users) > 1
