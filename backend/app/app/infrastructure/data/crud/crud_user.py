@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 # from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,11 +28,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return db_obj
 
     async def update(
-        self,
-        db: AsyncSession,
-        *,
-        db_obj: User,
-        obj_in: Union[UserUpdate, Dict[str, Any]]
+        self, db: AsyncSession, *, db_obj: User, obj_in: UserUpdate | Dict[str, Any]
     ) -> User:
         if isinstance(obj_in, dict):
             update_data = obj_in
